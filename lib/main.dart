@@ -7,7 +7,6 @@ import 'package:labinfoapp/ui/register/register_screen.dart';
 void main() {
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainTabAgendamentos(),
+      home: LoginScreen(),
     );
   }
 }

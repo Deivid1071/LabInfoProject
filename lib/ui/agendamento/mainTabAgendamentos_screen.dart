@@ -30,7 +30,7 @@ class _MainTabAgendamentosState extends State<MainTabAgendamentos> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            title: Text('Orientados'),
+            title: Text('Orientandos'),
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.exit_to_app),

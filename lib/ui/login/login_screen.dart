@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       )),
                   Container(
-                    padding: EdgeInsets.only(top: 150),
+                    padding: EdgeInsets.only(top: 60),
                     child: ButtonTheme(
                       height: 45,
                       minWidth: 100,
@@ -130,4 +130,5 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
 }
