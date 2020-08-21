@@ -42,7 +42,6 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
         ),
         clipBehavior: Clip.antiAlias,
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.6,
           width: MediaQuery.of(context).size.width * 0.8,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
