@@ -152,17 +152,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           height: 13,
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          padding: EdgeInsets.symmetric(horizontal: 5),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(30)),
-                          width: MediaQuery.of(context).size.width * 0.65,
+                              borderRadius: BorderRadius.circular(16)),
+                          width: MediaQuery.of(context).size.width * 0.72,
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
                               value: curso != null ? curso : null,
                               hint: Text(
-                                'Cursos                    ',
+                                'Cursos                         ',
                                 style: TextStyle(color: Colors.grey, fontSize: 20),
                               ),
                               items: <String>[

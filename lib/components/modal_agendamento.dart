@@ -179,13 +179,13 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(30)),
-                  width: MediaQuery.of(context).size.width * 0.65,
+                      borderRadius: BorderRadius.circular(16)),
+                  width: MediaQuery.of(context).size.width * 0.78,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       value: curso != null ? curso : null,
                       hint: Text(
-                        'Cursos             ',
+                        'Cursos                  ',
                         style: TextStyle(color: Colors.grey, fontSize: 20),
                       ),
                       items: <String>['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4']
@@ -211,8 +211,8 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(30)),
-                  width: MediaQuery.of(context).size.width * 0.65,
+                      borderRadius: BorderRadius.circular(16)),
+                  width: MediaQuery.of(context).size.width * 0.78,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       value: integrante != null ? integrante : null,
