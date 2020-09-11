@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:labinfoapp/components/custom_text_field.dart';
+import 'package:labinfoapp/service/services_api.dart';
 import 'package:labinfoapp/ui/agendamento/mainTabAgendamentos_screen.dart';
 import 'package:labinfoapp/ui/register/register_screen.dart';
 
@@ -15,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _passwordController;
   bool isLoading;
   bool showPass;
+  ApiService api;
 
   @override
   void initState() {
@@ -22,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController = TextEditingController();
     isLoading = false;
     showPass = false;
+    api = ApiService();
     super.initState();
   }
 
@@ -119,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               isLoading = !isLoading;
                             });
                             await Future.delayed(Duration(seconds: 2));
+                            //await api.authorize(_emailController.text, _passwordController.text);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

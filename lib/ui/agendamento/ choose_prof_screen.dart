@@ -58,6 +58,13 @@ class _ChooseProfScreenState extends State<ChooseProfScreen> {
                 setState(() {
                   _selected[index] = value;
                 });
+                if(_selected[index]) {
+                  selecionados.add(professores[index]);
+                }else{
+                  selecionados.remove(professores[index]);
+                }
+
+                print(selecionados);
               },
             );
           },
