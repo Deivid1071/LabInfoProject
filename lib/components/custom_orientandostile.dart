@@ -4,6 +4,9 @@ import 'package:flutter/painting.dart';
 import 'modal_agendamento.dart';
 
 class CustomListTileOrientado extends StatefulWidget {
+
+  String titulo;
+
   @override
   _CustomListTileOrientadoState createState() => _CustomListTileOrientadoState();
 }
@@ -31,7 +34,7 @@ class _CustomListTileOrientadoState extends State<CustomListTileOrientado> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Nome do Projeto',
+                widget.titulo??'Nome do Projeto',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               Container(

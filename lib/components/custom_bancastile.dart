@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class CustomListTile extends StatelessWidget {
+  final String title;
+  final String orientador;
+  final String dataMarcada;
+  final String hora;
+
+  CustomListTile({this.title, this.orientador, this.dataMarcada, this.hora});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,16 +32,27 @@ class CustomListTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Nome do Projeto',
+                    title??'titulo',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Container(
                     child: Row(
                       children: [
                         Text(
-                          'Data',
+                          hora??'hora',
+                          style:
+                          TextStyle(color: Color(0xFF4EB2EA), fontSize: 18),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          dataMarcada??'data',
                           style:
                               TextStyle(color: Color(0xFF4EB2EA), fontSize: 18),
+                        ),
+                        SizedBox(
+                          width: 20,
                         ),
                         Icon(
                           Icons.watch_later,
@@ -50,7 +67,7 @@ class CustomListTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Nome do Orientador',
+                    orientador??'Orientador',
                     style: TextStyle(color: Color(0xFF4EB2EA), fontSize: 18),
                   ),
                   GestureDetector(

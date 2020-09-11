@@ -255,7 +255,7 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                         setState(() {
                           isLoading = !isLoading;
                         });
-                        print('teste');
+                        Navigator.pop(context);
                       },
                     ),
                   ),
