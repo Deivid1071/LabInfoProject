@@ -4,6 +4,8 @@ import 'package:flutter/painting.dart';
 import 'package:labinfoapp/components/custom_bancastile.dart';
 import 'package:labinfoapp/components/custom_orientandostile.dart';
 import 'package:labinfoapp/components/custom_text_field.dart';
+import 'package:labinfoapp/model/banca.dart';
+import 'package:labinfoapp/service/services_api.dart';
 import 'package:labinfoapp/ui/register/register_screen.dart';
 
 class OrientandosScreen extends StatefulWidget {
@@ -12,9 +14,34 @@ class OrientandosScreen extends StatefulWidget {
 }
 
 class _OrientandosScreenState extends State<OrientandosScreen> {
+  ApiService api;
+  List<Banca> orientandos = [];
+  String erro;
+  bool isLoading;
+
   @override
   void initState() {
+    isLoading = true;
+    api = ApiService();
+    _getData();
     super.initState();
+  }
+
+  _getData() async {
+    var response  = await api.getProjetos();
+    if(response is String){
+      setState(() {
+        erro = response;
+        isLoading = false;
+      });
+    }else{
+      setState(() {
+        orientandos = response;
+        isLoading = false;
+      });
+    }
+
+    print(response);
   }
 
   @override
@@ -22,7 +49,7 @@ class _OrientandosScreenState extends State<OrientandosScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(0xFF4EB2EA),
-        body: SingleChildScrollView(
+        body: !isLoading ? SingleChildScrollView(
           physics: ScrollPhysics(),
           child: Column(
             children: [
@@ -44,18 +71,23 @@ class _OrientandosScreenState extends State<OrientandosScreen> {
                   )
                 ],
               ),
-              Container(
+              orientandos.isNotEmpty ? Container(
                 padding: EdgeInsets.only(top: 16, left: 18, right: 18),
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return CustomListTileOrientado();
+                    return CustomListTileOrientado(banca: orientandos[index],);
                   },
-                  itemCount: 8,
+                  itemCount: orientandos.length,
                   shrinkWrap: true,
                 ),
-              ),
+              ):Container(),
             ],
+          ),
+        ): Center(
+          child: CircularProgressIndicator(
+            valueColor:
+            AlwaysStoppedAnimation(Colors.white),
           ),
         ),
       ),

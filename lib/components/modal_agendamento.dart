@@ -2,11 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
+import 'package:labinfoapp/model/banca.dart';
+import 'package:labinfoapp/service/services_api.dart';
 import 'package:labinfoapp/ui/agendamento/%20choose_prof_screen.dart';
 
 import 'custom_text_field.dart';
 
 class ModalAgendamento extends StatefulWidget {
+  final Banca banca;
+
+  const ModalAgendamento({Key key, this.banca}) : super(key: key);
   @override
   _ModalAgendamentoState createState() => _ModalAgendamentoState();
 }
@@ -24,10 +29,9 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
 
   @override
   void initState() {
-    _nomeProjetoController = TextEditingController();
+    _nomeProjetoController = TextEditingController(text: widget.banca?.titulo??"");
     _horaController = TextEditingController();
     _minController = TextEditingController();
-
     isLoading = false;
     showPass = false;
     super.initState();
@@ -142,7 +146,7 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          stringData ?? 'Data',
+                          stringData?? widget.banca?.dataMarcada ?? 'Data',
                           style: TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                         IconButton(

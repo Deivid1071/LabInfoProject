@@ -14,9 +14,9 @@ class Banca {
   });
 
   Banca.fromJson(Map<String, dynamic> json) {
-    titulo = json['titulo'];
+    titulo = json['name'];
     orientador = json['orientador'];
-    dataMarcada = json['dataMarcada'];
+    dataMarcada = json['presentationDate'];
     horarioMarcado = json['horarioMarcado'];
     curso = json['curso'];
     membrosBanca = json['membrosBanca'];

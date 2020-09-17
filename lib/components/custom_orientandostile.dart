@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:labinfoapp/model/banca.dart';
 
 import 'modal_agendamento.dart';
 
 class CustomListTileOrientado extends StatefulWidget {
 
-  String titulo;
+  final Banca banca;
+
+  const CustomListTileOrientado({Key key, this.banca}) : super(key: key);
 
   @override
   _CustomListTileOrientadoState createState() => _CustomListTileOrientadoState();
@@ -34,7 +37,7 @@ class _CustomListTileOrientadoState extends State<CustomListTileOrientado> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                widget.titulo??'Nome do Projeto',
+                widget.banca?.titulo??'Nome do Projeto',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               Container(
@@ -44,7 +47,7 @@ class _CustomListTileOrientadoState extends State<CustomListTileOrientado> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return ModalAgendamento();
+                        return ModalAgendamento(banca: widget.banca,);
                       },
                     );
                   },

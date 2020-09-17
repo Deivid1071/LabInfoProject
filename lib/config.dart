@@ -1,6 +1,6 @@
 
 const config = {
-  'baseUrl': 'www.api.com',
+  'baseUrl': 'http://ec2-18-220-178-15.us-east-2.compute.amazonaws.com/api',
 
 };
 
