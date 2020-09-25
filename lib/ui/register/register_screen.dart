@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:labinfoapp/components/custom_text_field.dart';
+import 'package:labinfoapp/service/services_api.dart';
 import 'package:labinfoapp/ui/agendamento/mainTabAgendamentos_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -18,9 +19,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading;
   bool showPass;
   String curso;
+  ApiService api;
 
   @override
   void initState() {
+    api = ApiService();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _nomeController = TextEditingController();
@@ -41,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height-80,
+            height: MediaQuery.of(context).size.height - 80,
             width: MediaQuery.of(context).size.width,
             color: Color(0xFF4EB2EA),
             child: Center(
@@ -152,39 +155,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           height: 13,
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(16)),
-                          width: MediaQuery.of(context).size.width * 0.72,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: curso != null ? curso : null,
-                              hint: Text(
-                                'Cursos                         ',
-                                style: TextStyle(color: Colors.grey, fontSize: 20),
-                              ),
-                              items: <String>[
-                                'Opção 1',
-                                'Opção 2',
-                                'Opção 3',
-                                'Opção 4'
-                              ].map((String value) {
-                                return new DropdownMenuItem<String>(
-                                  value: value,
-                                  child: new Text(value),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  curso = value;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                        Container(
                           padding: EdgeInsets.only(top: 20),
                           child: ButtonTheme(
                             height: 45,
@@ -206,14 +176,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           color: Colors.white,
                                           fontSize: 17),
                                     ),
-                              onPressed: () {
+                              onPressed: () async {
+                                if (_nomeController.text.isNotEmpty &&
+                                    _emailController.text.isNotEmpty &&
+                                    _passwordController.text.isNotEmpty &&
+                                    (_passwordController.text ==
+                                        _confirmPasswordController.text)) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  var resultado = await api.register(
+                                      _emailController.text,
+                                      _passwordController.text,
+                                      _titulodController.text,
+                                      _nomeController.text);
+
+                                  if (resultado == 200) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MainTabAgendamentos()));
+                                  }
+                                }
                                 setState(() {
-                                  isLoading = !isLoading;
+                                  isLoading = false;
                                 });
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MainTabAgendamentos()));
                               },
                             ),
                           ),

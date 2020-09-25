@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:labinfoapp/components/custom_bancastile.dart';
 import 'package:labinfoapp/components/custom_orientandostile.dart';
 import 'package:labinfoapp/components/custom_text_field.dart';
+import 'package:labinfoapp/components/modal_agendamento.dart';
 import 'package:labinfoapp/model/banca.dart';
 import 'package:labinfoapp/service/services_api.dart';
 import 'package:labinfoapp/ui/register/register_screen.dart';
@@ -69,6 +70,35 @@ class _OrientandosScreenState extends State<OrientandosScreen> {
                     size: 30,
                     color: Color(0xFF045A8A),
                   )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 14),
+                    child: Text(
+                      'Adicionar nova banca',
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Color(0xFF045A8A),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: (){
+                      showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ModalAgendamento();
+                      });
+                    },
+                    icon: Icon(
+                      Icons.add_circle_outline,
+                      size: 50,
+                      color: Color(0xFF045A8A),
+                    ),
+                  ),
                 ],
               ),
               orientandos.isNotEmpty ? Container(

@@ -40,7 +40,7 @@ class _CustomListTileOrientadoState extends State<CustomListTileOrientado> {
                 widget.banca?.titulo??'Nome do Projeto',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
-              Container(
+              /*Container(
                 margin: EdgeInsets.only(bottom: 20),
                 child: IconButton(
                   onPressed: () {
@@ -59,7 +59,7 @@ class _CustomListTileOrientadoState extends State<CustomListTileOrientado> {
                     ),
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),

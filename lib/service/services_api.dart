@@ -44,26 +44,26 @@ class ApiService {
     }
   }
 
-  Future<UserResponse> register(String email, String password, String titulo, String curso) async {
+  Future register(String email, String password, String titulo, String nome) async {
     try {
       final response = await client
           .post(
-          Uri.parse("$_baseUrl/algumacoisa"),
+          Uri.parse("$_baseUrl/teacher"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Accept' : 'application/json'
           },
           body: jsonEncode(<String, dynamic>{
             'email': email,
+            'name': nome,
             'password': password,
-            'titulo': titulo,
-            'curso': curso,
+            'title': titulo,
           })
       ).timeout(const Duration(seconds: 10));
 
       switch (response.statusCode) {
         case 200:
-          return UserResponse.fromJson(json.decode(response.body));
+          return 200;
           break;
         case 400:
           return UserResponse.withError(json.decode(response.body));
@@ -92,10 +92,9 @@ class ApiService {
             'Accept' : 'application/json'
           },
       ).timeout(const Duration(seconds: 10));
-
       switch (response.statusCode) {
         case 200:
-          print(jsonDecode(response.body));
+          //print(jsonDecode(response.body));
           final List decodedJson = jsonDecode(response.body);
           final List<Banca> bancas = List();
 
@@ -120,19 +119,18 @@ class ApiService {
     }
   }
 
-  Future createProjetos() async {
-    List<Banca> bancas;
+  Future createProjetos(String nome, String data) async {
     try {
       final response = await client
           .post(
-        Uri.parse("$_baseUrl/projects"),
+          Uri.parse("$_baseUrl/projects"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Accept' : 'application/json'
           },
           body: jsonEncode(<String, dynamic>{
-            'name': 'Agenda ae',
-            'presentationDate': '07-10-2020',
+            'name': nome,
+            'presentationDate': data,
           })
       ).timeout(const Duration(seconds: 10));
 
@@ -157,5 +155,114 @@ class ApiService {
     }
   }
 
+  Future getProfessores() async {
+    try {
+      final response = await client
+          .get(
+          Uri.parse("$_baseUrl/teacher"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept' : 'application/json'
+          },
+      ).timeout(const Duration(seconds: 10));
+
+      print(response.statusCode);
+      switch (response.statusCode) {
+        case 200:
+          //print(jsonDecode(response.body));
+          final List decodedJson = jsonDecode(response.body);
+          final List<Professor> professores = List();
+
+          if (decodedJson.isNotEmpty) {
+            decodedJson
+                .forEach((professor) => professores.add(Professor.fromJson(professor)));
+          }
+          return professores;
+          break;
+        case 400:
+          return json.decode(response.body);
+          break;
+        default:
+          return (
+              "${response.statusCode}: ${response.body}");
+          break;
+      }
+    } on TimeoutException catch (e) {
+      return "Timeout: $e";
+    } catch (e) {
+      return "ERROR: $e";
+    }
+  }
+
+  Future getMinhasBancas(int userId) async {
+    List<Banca> minhasBancas;
+    try {
+      final response = await client
+          .get(
+        Uri.parse("$_baseUrl/presentation/$userId"),
+        headers: <String, String>{
+          'content-type': 'application/x-www-form-urlencoded',
+          'Accept' : 'application/json'
+        },
+      ).timeout(const Duration(seconds: 10));
+      switch (response.statusCode) {
+        case 200:
+        //print(jsonDecode(response.body));
+          final List decodedJson = jsonDecode(response.body);
+          final List<MinhaBanca> bancas = List();
+
+          if (decodedJson.isNotEmpty) {
+            decodedJson
+                .forEach((minhaBanca) => bancas.add(MinhaBanca.fromJson(minhaBanca)));
+          }
+          return bancas;
+          break;
+        case 400:
+          return "Deu erro";
+          break;
+        default:
+          return (
+              "${response.statusCode}: ${response.body}");
+          break;
+      }
+    } on TimeoutException catch (e) {
+      return "Timeout: $e";
+    } catch (e) {
+      return "ERROR: $e";
+    }
+  }
+
+
+}
+
+class Professor {
+   String nome;
+   int id;
+
+  Professor(this.nome, this.id);
+
+  Professor.fromJson(Map<String, dynamic> json){
+    nome = json['name'];
+    id = json['id'];
+  }
+
+}
+
+class MinhaBanca {
+  String titulo;
+  String orientador;
+  bool possuiCertificado;
+  String hora;
+  String data;
+
+  MinhaBanca(this.titulo, this.data,this.possuiCertificado, this.hora,this.orientador);
+
+  MinhaBanca.fromJson(Map<String, dynamic> json){
+    titulo = json['name'];
+    data = json['id'];
+    possuiCertificado = json['id'];
+    hora = json['id'];
+    orientador = json['id'];
+  }
 
 }

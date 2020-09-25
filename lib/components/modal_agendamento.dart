@@ -21,11 +21,13 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
   TextEditingController _horaController;
   TextEditingController _minController;
   DateTime _dateTime;
-  String stringData;
+  String stringData='';
   bool isLoading;
   bool showPass;
   String curso;
   String integrante;
+  ApiService api;
+  List professores;
 
   @override
   void initState() {
@@ -34,6 +36,8 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
     _minController = TextEditingController();
     isLoading = false;
     showPass = false;
+    api = ApiService();
+    professores = [];
     super.initState();
   }
 
@@ -194,7 +198,7 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                         'Cursos                  ',
                         style: TextStyle(color: Colors.grey, fontSize: 20),
                       ),
-                      items: <String>['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4']
+                      items: <String>['Matemática', 'Automação', 'ADS']
                           .map((String value) {
                         return new DropdownMenuItem<String>(
                           value: value,
@@ -213,11 +217,12 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                   height: 13,
                 ),
                 GestureDetector(
-                  onTap: (){
-                    Navigator.push(
+                  onTap: ()async {
+                   List<int> selecionados = await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ChooseProfScreen()));
+                   print(selecionados);
                   },
                   child: Container(
                     height: 50,
@@ -234,7 +239,6 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                   ),
                 ),
                 Container(
-
                   padding: EdgeInsets.only(top: 20),
                   child: ButtonTheme(
                     height: 45,
@@ -255,9 +259,19 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                                   color: Colors.white,
                                   fontSize: 17),
                             ),
-                      onPressed: () {
+                      onPressed: () async{
+                        if(stringData.isNotEmpty && _nomeProjetoController.text.isNotEmpty){
+                          String hora = _horaController.text + ':' + _minController.text;
+                          professores.add(1);
+                          professores.add(2);
+                          professores.add(3);
+                          setState(() {
+                            isLoading = true;
+                          });
+                          var resultado = await api.createProjetos(_nomeProjetoController.text,stringData);
+                        }
                         setState(() {
-                          isLoading = !isLoading;
+                          isLoading = false;
                         });
                         Navigator.pop(context);
                       },
