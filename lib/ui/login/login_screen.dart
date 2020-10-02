@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:labinfoapp/components/custom_text_field.dart';
+import 'package:labinfoapp/model/user.dart';
 import 'package:labinfoapp/service/services_api.dart';
 import 'package:labinfoapp/ui/agendamento/mainTabAgendamentos_screen.dart';
 import 'package:labinfoapp/ui/register/register_screen.dart';
@@ -119,15 +120,41 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                           onPressed: () async {
                             setState(() {
-                              isLoading = !isLoading;
+                              isLoading = true;
                             });
-                            await Future.delayed(Duration(seconds: 2));
-                            //await api.authorize(_emailController.text, _passwordController.text);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MainTabAgendamentos()));
-                            isLoading = !isLoading;
+                            //await Future.delayed(Duration(seconds: 2));
+                            await api.authorize(_emailController.text, _passwordController.text);
+                            if(User.userId != null){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MainTabAgendamentos()));
+                            }else{
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  // retorna um objeto do tipo Dialog
+                                  return AlertDialog(
+                                    title: new Text("Erro no login"),
+                                    content: new Text("Usuário ou senha incorretos"),
+                                    actions: <Widget>[
+                                      // define os botões na base do dialogo
+                                      new FlatButton(
+                                        child: new Text("OK"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+
+                            isLoading = false;
                           },
                         ),
                       ),

@@ -14,7 +14,7 @@ class ApiService {
     try {
       final response = await client
           .post(
-          Uri.parse("$_baseUrl/algumacoisa"),
+          Uri.parse("$_baseUrl/login"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Accept' : 'application/json'
@@ -25,9 +25,10 @@ class ApiService {
           })
       ).timeout(const Duration(seconds: 10));
 
+      //print(json.decode(response.body));
       switch (response.statusCode) {
         case 200:
-          return UserResponse.fromJson(json.decode(response.body));
+          return UserResponse.fromJson(json.decode(response.body)[0]);
           break;
         case 400:
           return UserResponse.withError(json.decode(response.body));
@@ -45,12 +46,13 @@ class ApiService {
   }
 
   Future register(String email, String password, String titulo, String nome) async {
+    print(password);
     try {
       final response = await client
           .post(
           Uri.parse("$_baseUrl/teacher"),
           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
+            'content-type': 'application/x-www-form-urlencoded',
             'Accept' : 'application/json'
           },
           body: jsonEncode(<String, dynamic>{
@@ -60,7 +62,8 @@ class ApiService {
             'title': titulo,
           })
       ).timeout(const Duration(seconds: 10));
-
+      print(json.decode(response.body));
+      print(response.statusCode);
       switch (response.statusCode) {
         case 200:
           return 200;
@@ -119,18 +122,22 @@ class ApiService {
     }
   }
 
-  Future createProjetos(String nome, String data) async {
+  Future createProjetos(String nome, String data, String nomeOrientador, String hora, List membros) async {
     try {
       final response = await client
           .post(
-          Uri.parse("$_baseUrl/projects"),
+          Uri.parse("$_baseUrl/presentation"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Accept' : 'application/json'
           },
           body: jsonEncode(<String, dynamic>{
-            'name': nome,
-            'presentationDate': data,
+            'title': nome,
+            'data': data,
+            'orientador': nomeOrientador,
+            'possuiCertificado': true,
+            'hora': hora,
+            'membros': membros,
           })
       ).timeout(const Duration(seconds: 10));
 
@@ -251,18 +258,18 @@ class Professor {
 class MinhaBanca {
   String titulo;
   String orientador;
-  bool possuiCertificado;
+  int possuiCertificado;
   String hora;
   String data;
 
   MinhaBanca(this.titulo, this.data,this.possuiCertificado, this.hora,this.orientador);
 
   MinhaBanca.fromJson(Map<String, dynamic> json){
-    titulo = json['name'];
-    data = json['id'];
-    possuiCertificado = json['id'];
-    hora = json['id'];
-    orientador = json['id'];
+    titulo = json['title'];
+    data = json['data'];
+    possuiCertificado = json['possuiCertificado'];
+    hora = json['hora'];
+    orientador = json['orientador'];
   }
 
 }

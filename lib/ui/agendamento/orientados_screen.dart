@@ -95,7 +95,7 @@ class _OrientandosScreenState extends State<OrientandosScreen> {
                     },
                     icon: Icon(
                       Icons.add_circle_outline,
-                      size: 50,
+                      size: 40,
                       color: Color(0xFF045A8A),
                     ),
                   ),

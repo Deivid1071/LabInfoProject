@@ -12,16 +12,18 @@ class ModalAgendamento extends StatefulWidget {
   final Banca banca;
 
   const ModalAgendamento({Key key, this.banca}) : super(key: key);
+
   @override
   _ModalAgendamentoState createState() => _ModalAgendamentoState();
 }
 
 class _ModalAgendamentoState extends State<ModalAgendamento> {
   TextEditingController _nomeProjetoController;
+  TextEditingController _nomeOrientadorController;
   TextEditingController _horaController;
   TextEditingController _minController;
   DateTime _dateTime;
-  String stringData='';
+  String stringData = '';
   bool isLoading;
   bool showPass;
   String curso;
@@ -31,9 +33,11 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
 
   @override
   void initState() {
-    _nomeProjetoController = TextEditingController(text: widget.banca?.titulo??"");
+    _nomeProjetoController =
+        TextEditingController(text: widget.banca?.titulo ?? "");
     _horaController = TextEditingController();
     _minController = TextEditingController();
+    _nomeOrientadorController = TextEditingController();
     isLoading = false;
     showPass = false;
     api = ApiService();
@@ -107,7 +111,7 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                           style: TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                         Container(
-                          color:Colors.grey[200],
+                          color: Colors.grey[200],
                           child: Row(
                             children: [
                               Container(
@@ -150,21 +154,21 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          stringData?? widget.banca?.dataMarcada ?? 'Data',
+                          stringData ?? widget.banca?.dataMarcada ?? 'Data',
                           style: TextStyle(fontSize: 20, color: Colors.grey),
                         ),
                         IconButton(
                           onPressed: () {
                             showDatePicker(
-                                context: context,
-                                initialDate: _dateTime == null
-                                    ? DateTime.now()
-                                    : _dateTime,
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(2021))
+                                    context: context,
+                                    initialDate: _dateTime == null
+                                        ? DateTime.now()
+                                        : _dateTime,
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime(2021))
                                 .then((date) {
                               String dateformat =
-                              new DateFormat("dd-MM-yyyy").format(date);
+                                  new DateFormat("dd-MM-yyyy").format(date);
                               setState(() {
                                 stringData = dateformat;
                                 _dateTime = date;
@@ -183,46 +187,25 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                 SizedBox(
                   height: 13,
                 ),
-                Container(
-
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(16)),
-                  width: MediaQuery.of(context).size.width * 0.78,
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: curso != null ? curso : null,
-                      hint: Text(
-                        'Cursos                  ',
-                        style: TextStyle(color: Colors.grey, fontSize: 20),
-                      ),
-                      items: <String>['Matemática', 'Automação', 'ADS']
-                          .map((String value) {
-                        return new DropdownMenuItem<String>(
-                          value: value,
-                          child: new Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          curso = value;
-                        });
-                      },
-                    ),
-                  ),
+                CustomTextField(
+                  hint: 'Nome do orientador',
+                  textInputType: TextInputType.text,
+                  controller: _nomeOrientadorController,
+                  enabled: !isLoading,
                 ),
                 SizedBox(
                   height: 13,
                 ),
                 GestureDetector(
-                  onTap: ()async {
-                   List<int> selecionados = await Navigator.push(
+                  onTap: () async {
+                    List<int> selecionados = await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ChooseProfScreen()));
-                   print(selecionados);
+                    print(selecionados);
+                    setState(() {
+                      professores = selecionados;
+                    });
                   },
                   child: Container(
                     height: 50,
@@ -259,21 +242,68 @@ class _ModalAgendamentoState extends State<ModalAgendamento> {
                                   color: Colors.white,
                                   fontSize: 17),
                             ),
-                      onPressed: () async{
-                        if(stringData.isNotEmpty && _nomeProjetoController.text.isNotEmpty){
-                          String hora = _horaController.text + ':' + _minController.text;
-                          professores.add(1);
-                          professores.add(2);
-                          professores.add(3);
+                      onPressed: () async {
+                        if (stringData.isNotEmpty &&
+                            _nomeProjetoController.text.isNotEmpty) {
+                          String hora =
+                              _horaController.text + ':' + _minController.text;
                           setState(() {
                             isLoading = true;
                           });
-                          var resultado = await api.createProjetos(_nomeProjetoController.text,stringData);
+                          if (professores.length > 0) {
+                            var resultado = await api.createProjetos(
+                                _nomeProjetoController.text,
+                                stringData,
+                                _nomeOrientadorController.text,
+                                hora,
+                                professores);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            Navigator.pop(context);
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                // retorna um objeto do tipo Dialog
+                                return AlertDialog(
+                                  title: new Text("Alert"),
+                                  content:
+                                      new Text("Adicione os membros da banca"),
+                                  actions: <Widget>[
+                                    // define os botões na base do dialogo
+                                    new FlatButton(
+                                      child: new Text("OK"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              // retorna um objeto do tipo Dialog
+                              return AlertDialog(
+                                title: new Text("Alert"),
+                                content: new Text("Preencha todos os campos"),
+                                actions: <Widget>[
+                                  // define os botões na base do dialogo
+                                  new FlatButton(
+                                    child: new Text("OK"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         }
-                        setState(() {
-                          isLoading = false;
-                        });
-                        Navigator.pop(context);
                       },
                     ),
                   ),

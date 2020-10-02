@@ -1,13 +1,14 @@
 
 class User {
-  static String userId;
+  static int userId;
   static String name;
 
 //  User({this.userId, this.token});
 
   User.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
-    name = json['nome'];
+    print(json);
+    userId = json['id'];
+    name = json['name'];
   }
 }
 

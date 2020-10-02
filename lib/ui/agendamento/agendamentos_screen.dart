@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:labinfoapp/components/custom_bancastile.dart';
 import 'package:labinfoapp/components/custom_text_field.dart';
+import 'package:labinfoapp/model/user.dart';
 import 'package:labinfoapp/service/services_api.dart';
 import 'package:labinfoapp/ui/register/register_screen.dart';
 
@@ -26,7 +27,7 @@ class _AgendamentosScreenState extends State<AgendamentosScreen> {
   }
 
   _getData() async {
-    var response = await api.getMinhasBancas(1);
+    var response = await api.getMinhasBancas(User.userId);
     if (response is String) {
       setState(() {
         erro = response;
@@ -84,7 +85,7 @@ class _AgendamentosScreenState extends State<AgendamentosScreen> {
                   hora: minhasBancas[index].hora,
                 );
               },
-              itemCount: 15,
+              itemCount: minhasBancas.length,
               shrinkWrap: true,
             ) : Padding(
               padding: const EdgeInsets.only(top: 250),
