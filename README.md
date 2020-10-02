@@ -1,16 +1,50 @@
-# labinfoapp
+## :pencil: Summary
 
-A new Flutter application.
+- [About](#about)
+- [Tools](#tools)
+- [Back-end](#backend)
+- [Usage](#usage)
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## About <a name = "about"></a>
 
-A few resources to get you started if this is your first Flutter project:
+APP built with Flutter to handle tccPresentations info with a Laravel API
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+---
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tools: <a name = "tools"></a>
+
+- Flutter
+
+
+---
+
+## Back-end <a name = "backend"></a>
+
+### Back-end project
+was developed in This Repo :https://github.com/emanuelbiet/tccPresentationsApi.
+
+---
+
+## Usage <a name="usage"></a>
+
+### Requirements <a name = "requirements"></a>
+
+After cloning this repo, you may need Android Studio with emulator.
+
+---
+
+### Installing
+
+
+Follow the instructions in the official [documentation](https://flutter.dev/docs/get-started/install)
+
+After that type flutter run in your terminal
+
+```sh
+flutter run
+```
+
+
+## Thanks for the attention!
