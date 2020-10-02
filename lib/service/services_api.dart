@@ -52,16 +52,16 @@ class ApiService {
           .post(
           Uri.parse("$_baseUrl/teacher"),
           headers: <String, String>{
-            'content-type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
             'Accept' : 'application/json'
           },
           body: jsonEncode(<String, dynamic>{
             'email': email,
             'name': nome,
-            'password': password,
             'title': titulo,
+            'password': password,
           })
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(const Duration(seconds: 60));
       print(json.decode(response.body));
       print(response.statusCode);
       switch (response.statusCode) {
@@ -144,7 +144,6 @@ class ApiService {
       print(response.statusCode);
       switch (response.statusCode) {
         case 200:
-
           return 200;
           break;
         case 400:

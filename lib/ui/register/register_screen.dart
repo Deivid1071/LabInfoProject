@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:labinfoapp/components/custom_text_field.dart';
 import 'package:labinfoapp/service/services_api.dart';
 import 'package:labinfoapp/ui/agendamento/mainTabAgendamentos_screen.dart';
+import 'package:labinfoapp/ui/login/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -191,13 +192,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       _titulodController.text,
                                       _nomeController.text);
 
-                                  if (resultado == 200) {
+                                  await Future.delayed(Duration(seconds: 2));
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                MainTabAgendamentos()));
-                                  }
+                                                LoginScreen()));
+
                                 }
                                 setState(() {
                                   isLoading = false;
